@@ -8,7 +8,10 @@ import * as moment from "moment";
 import * as jose from "node-jose";
 import { config } from "../config";
 
-const keyBuffer = Buffer.from(config.JWK_SECRET_HEX, "hex");
+/**
+ * Buffer of JWK secret
+ */
+const jwkSecretBuffer = Buffer.from(config.JWK_SECRET_HEX, "hex");
 
 /**
  * json web key (JWK)
@@ -21,7 +24,7 @@ const keyBuffer = Buffer.from(config.JWK_SECRET_HEX, "hex");
  */
 const jwk = jose.JWK.asKey({
   kty: "oct",
-  k: jose.util.base64url.encode(keyBuffer)
+  k: jose.util.base64url.encode(jwkSecretBuffer)
 });
 
 export const token = {
