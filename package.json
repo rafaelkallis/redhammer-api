@@ -10,7 +10,8 @@
     "lint": "tslint --project tsconfig.json --format codeFrame",
     "lint:fix": "tslint --fix --project tsconfig.json",
     "prettier": "prettier --config .prettierrc --write \"src/**/*.ts\" \"migrations/*.js\" \"seeders/*.js\"",
-    "prettier:check": "prettier --check --config .prettierrc \"src/**/*.ts\""
+    "prettier:check": "prettier --check --config .prettierrc \"src/**/*.ts\"",
+    "heroku-postbuild": "npm run build"
   },
   "dependencies": {
     "dotenv-safe": "6.1.0",
