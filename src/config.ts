@@ -3,12 +3,21 @@
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
-import { cleanEnv, port } from "envalid";
+import { cleanEnv, makeValidator, port } from "envalid";
 
 interface IConfig {
   PORT: number;
+  JWK_SECRET_HEX: string;
 }
 
-export const config = cleanEnv<IConfig>(process.env, {
-  PORT: port()
+const strHex64 = makeValidator<string>(x => {
+  if (/^[0-9a-f]{64}$/.test(x)) {
+    return x;
+  }
+  throw new Error("Expected a hex-character string of length 64");
+});
+
+export const config: Readonly<IConfig> = cleanEnv<IConfig>(process.env, {
+  PORT: port(),
+  JWK_SECRET_HEX: strHex64()
 });
