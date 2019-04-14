@@ -11,7 +11,7 @@ import { authController } from "./controller";
 export const authRouter = new Router();
 
 authRouter.post(
-  "/verify",
+  "/signup",
   validate.body({
     email: Joi.string()
       .email()
@@ -20,7 +20,7 @@ authRouter.post(
     name: Joi.string().required(),
     address: Joi.string().required()
   }),
-  authController.verify
+  authController.signup
 );
 
 authRouter.post(

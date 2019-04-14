@@ -11,7 +11,7 @@ import * as errors from "./errors";
 export const authController = {
   /**
    */
-  async verify({ request, response }: Context) {
+  async signup({ request, response }: Context) {
     const { email, password, name, address } = request.body;
     const id = services.random.id();
     let payload = {
@@ -29,7 +29,7 @@ export const authController = {
   },
   /**
    */
-  async signup({ request, response }: Context) {
+  async verify({ request, response }: Context) {
     const { token } = request.query;
     let payload;
     try {
