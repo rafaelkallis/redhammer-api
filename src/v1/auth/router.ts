@@ -39,3 +39,9 @@ authRouter.post(
   }),
   authController.login
 );
+
+authRouter.post(
+  "/refresh",
+  validate.body({ token: Joi.string().required() }),
+  authController.refresh
+);

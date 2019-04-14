@@ -73,35 +73,6 @@ const token = {
   },
 
   /**
-   * Timestamps the given JWT token payload, i.e.
-   * adds or overrides a "iat" claim and assigns to it the current time.
-   * adds or overrides a "exp" claim  nd assigns to it the current time + value.
-   * "exp" claim is only asigned if lifetime is provided.
-   * specified in lifetime parameter.
-   *
-   * More information regarding the claims can be found on
-   * {@link https://tools.ietf.org/html/rfc7519}
-   * under sections 4.1.3 and 4.1.4.
-   *
-   * @param {Object} params.payload - The JWT token's payload.
-   * @param {number} params.lifetime - The lifetime of the JWT token in minutes.
-   * @return {Object}
-   */
-  timestamp<T>(params: {
-    payload: T;
-    lifetime: number;
-  }): T & { iat: number; exp: number } {
-    const { payload, lifetime } = params;
-    return {
-      ...payload,
-      iat: moment().unix(),
-      exp: moment()
-        .add(lifetime, "minutes")
-        .unix()
-    };
-  },
-
-  /**
    * Determines if the given JWT token has valid timestamps, i.e.
    * the "exp" claim is not younger than the present instance of time and
    * the "iat" claim is not older than the present instance of time.

@@ -4,10 +4,12 @@
  */
 
 import { getHashes } from "crypto";
-import { cleanEnv, makeValidator, num, port, str } from "envalid";
+import * as envalid from "envalid";
 
 interface IConfig {
+  NODE_ENV: string;
   PORT: number;
+  DATABASE_URL: string;
   JWK_SECRET_HEX: string;
   PBKDF2_N_SALT_BYTES: number;
   PBKDF2_N_ITERATIONS: number;
@@ -15,18 +17,23 @@ interface IConfig {
   PBKDF2_DIGEST: string;
 }
 
-const strHex64 = makeValidator<string>(x => {
+const strHex64 = envalid.makeValidator<string>(x => {
   if (/^[0-9a-f]{64}$/.test(x)) {
     return x;
   }
   throw new Error("Expected a hex-character string of length 64");
 });
 
-export const config: Readonly<IConfig> = cleanEnv<IConfig>(process.env, {
-  PORT: port(),
-  JWK_SECRET_HEX: strHex64(),
-  PBKDF2_N_SALT_BYTES: num(),
-  PBKDF2_N_ITERATIONS: num(),
-  PBKDF2_N_KEY_BYTES: num(),
-  PBKDF2_DIGEST: str({ choices: getHashes() })
-});
+export const config: Readonly<IConfig> = envalid.cleanEnv<IConfig>(
+  process.env,
+  {
+    NODE_ENV: envalid.str({ choices: ["production", "development", "test"] }),
+    PORT: envalid.port(),
+    DATABASE_URL: envalid.url(),
+    JWK_SECRET_HEX: strHex64(),
+    PBKDF2_N_SALT_BYTES: envalid.num(),
+    PBKDF2_N_ITERATIONS: envalid.num(),
+    PBKDF2_N_KEY_BYTES: envalid.num(),
+    PBKDF2_DIGEST: envalid.str({ choices: getHashes() })
+  }
+);
