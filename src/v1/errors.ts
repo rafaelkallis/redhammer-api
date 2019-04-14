@@ -15,13 +15,13 @@ export interface IServerError {
   message: string;
 }
 
-const ClientErrorFactory = (code, message) => (): IClientError => ({
+export const ClientErrorFactory = (code, message) => (): IClientError => ({
   isClientError: true,
   code,
   message
 });
 
-const ServerErrorFactory = (code, message) => (): IServerError => ({
+export const ServerErrorFactory = (code, message) => (): IServerError => ({
   isServerError: true,
   code,
   message
@@ -29,15 +29,15 @@ const ServerErrorFactory = (code, message) => (): IServerError => ({
 
 export const INTERNAL_ERROR = ServerErrorFactory(
   "internal_error",
-  "Request cannot be processed due to an internal error."
+  "Request cannot be processed due to an internal error"
 );
 
 export const UNIMPLEMENTED_ERROR = ServerErrorFactory(
   "unimplemented_error",
-  "The endpoint has not been implemented yet."
+  "The endpoint has not been implemented yet"
 );
 
 export const INTERNAL_DATABASE_ERROR = ServerErrorFactory(
   "internal_database_error",
-  "Request cannot be processed due to an internal database error."
+  "Request cannot be processed due to an internal database error"
 );

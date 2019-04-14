@@ -92,11 +92,4 @@ declare module "node-jose" {
       ): Promise<{ payload: Buffer }>;
     }
   }
-
-  namespace util {
-    namespace base64url {
-      function encode(buffer: Buffer): string;
-      function decode(str: string): Buffer;
-    }
-  }
 }

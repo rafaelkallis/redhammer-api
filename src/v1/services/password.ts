@@ -4,9 +4,9 @@
  */
 
 import { pbkdf2, randomBytes } from "crypto";
-import { config } from "../config";
+import { config } from "../../config";
 
-export const password = {
+const password = {
   /**
    * Generates a pseudorandom salt for the password hash.
    */
@@ -46,3 +46,7 @@ export const password = {
     return hash === (await this.hash(plaintext, salt));
   }
 };
+
+const passwordService = password;
+
+export { password, passwordService };

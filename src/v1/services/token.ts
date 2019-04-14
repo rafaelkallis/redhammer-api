@@ -6,7 +6,7 @@
 import base64url from "base64url";
 import * as moment from "moment";
 import * as jose from "node-jose";
-import { config } from "../config";
+import { config } from "../../config";
 
 /**
  * Buffer of JWK secret
@@ -24,10 +24,10 @@ const jwkSecretBuffer = Buffer.from(config.JWK_SECRET_HEX, "hex");
  */
 const jwk = jose.JWK.asKey({
   kty: "oct",
-  k: jose.util.base64url.encode(jwkSecretBuffer)
+  k: base64url.encode(jwkSecretBuffer)
 });
 
-export const token = {
+const token = {
   /**
    * Signs the given payload and returns a JWT.
    *
@@ -83,19 +83,22 @@ export const token = {
    * {@link https://tools.ietf.org/html/rfc7519}
    * under sections 4.1.3 and 4.1.4.
    *
-   * @param {Object} opts.payload - The JWT token's payload.
-   * @param {number} opts.lifetime - The lifetime of the JWT token in minutes.
-   * @return {Object} timestampedPayload
+   * @param {Object} params.payload - The JWT token's payload.
+   * @param {number} params.lifetime - The lifetime of the JWT token in minutes.
+   * @return {Object}
    */
-  async timestamp({ payload, lifetime }) {
-    const res = { ...payload };
-    res.iat = moment().unix();
-    if (lifetime) {
-      res.exp = moment()
+  timestamp<T>(params: {
+    payload: T;
+    lifetime: number;
+  }): T & { iat: number; exp: number } {
+    const { payload, lifetime } = params;
+    return {
+      ...payload,
+      iat: moment().unix(),
+      exp: moment()
         .add(lifetime, "minutes")
-        .unix();
-    }
-    return res;
+        .unix()
+    };
   },
 
   /**
@@ -110,7 +113,7 @@ export const token = {
    * @param {Object} payload - The token's payload.
    * @return {boolean} - True if the token is not expired.
    */
-  async hasValidTimestamps(payload) {
+  hasValidTimestamps(payload) {
     const { iat, exp } = payload;
     if (!iat) {
       /* a claim is missing */
@@ -120,7 +123,11 @@ export const token = {
       /* token was issued in the future */
       return false;
     }
-    if (exp && moment() > moment.unix(exp)) {
+    if (!exp) {
+      /* a claim is missing */
+      return false;
+    }
+    if (moment() > moment.unix(exp)) {
       /* token has expired */
       return false;
     }
@@ -128,4 +135,6 @@ export const token = {
   }
 };
 
-export const tokenService = token;
+const tokenService = token;
+
+export { token, tokenService };

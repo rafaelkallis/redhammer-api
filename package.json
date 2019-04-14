@@ -14,18 +14,25 @@
     "heroku-postbuild": "npm run build"
   },
   "dependencies": {
+    "base64url": "3.0.1",
     "dotenv-safe": "6.1.0",
     "envalid": "5.0.0",
+    "joi": "14.3.1",
     "koa": "2.7.0",
+    "koa-bodyparser": "4.2.1",
     "koa-router": "7.4.0",
     "moment": "2.24.0",
-    "node-jose": "1.1.3"
+    "node-jose": "1.1.3",
+    "winston": "3.2.1"
   },
   "devDependencies": {
     "@types/dotenv-safe": "5.0.3",
+    "@types/joi": "14.3.2",
     "@types/koa": "2.0.48",
+    "@types/koa-bodyparser": "4.2.2",
     "@types/koa-router": "7.0.40",
     "@types/node": "11.13.4",
+    "@types/winston": "2.4.4",
     "husky": "1.3.1",
     "lint-staged": "8.1.5",
     "prettier": "1.16.4",
