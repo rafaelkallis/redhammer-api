@@ -24,9 +24,9 @@ authRouter.post(
 );
 
 authRouter.post(
-  "/signup",
+  "/verify",
   validate.query({ token: Joi.string().required() }),
-  authController.signup
+  authController.verify
 );
 
 authRouter.post(

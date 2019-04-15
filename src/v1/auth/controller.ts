@@ -35,6 +35,7 @@ export const authController = {
     };
     const token = await services.token.encrypt(payload);
     await services.email.sendVerifySignup({ to: email, token });
+    response.status = 200;
   },
 
   /**
