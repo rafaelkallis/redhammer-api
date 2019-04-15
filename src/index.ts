@@ -3,16 +3,7 @@
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
-import * as Koa from "koa";
-import * as bodyParser from "koa-bodyparser";
-import * as Router from "koa-router";
+import { app } from "./app";
 import { config } from "./config";
-import { router } from "./router";
-
-const app = new Koa();
-
-app.use(bodyParser());
-
-app.use(router.routes()).use(router.allowedMethods());
 
 export const server = app.listen(config.PORT);

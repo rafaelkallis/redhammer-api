@@ -33,5 +33,5 @@ Item.init(
   }
 );
 
-Item.belongsTo(User, { as: "owner", foreignKey: "owner_id" });
-User.hasMany(Item, { foreignKey: "owner_id" });
+Item.belongsTo(User, { as: "owner", foreignKey: "ownerId" });
+User.hasMany(Item, { foreignKey: "ownerId" });

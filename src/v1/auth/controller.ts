@@ -75,26 +75,14 @@ export const authController = {
     if (!(await services.password.verify(password, user.salt, user.hash))) {
       throw errors.PASSWORD_MISSMATCH_ERROR();
     }
-    const accessTokenPayload = {
-      jti: services.random.id(),
-      aud: constants.ACCESS_TOKEN,
-      sub: user.id,
-      iat: moment().unix(),
-      exp: moment()
-        .add(constants.ACCESS_TOKEN_LIFETIME_MIN, "minutes")
-        .unix()
-    };
-    const accessToken = await services.token.sign(accessTokenPayload);
-    const refreshTokenPayload = {
-      jti: services.random.id(),
-      aud: constants.REFRESH_TOKEN,
-      sub: user.id,
-      iat: moment().unix(),
-      exp: moment()
-        .add(constants.REFRESH_TOKEN_LIFETIME_MIN, "minutes")
-        .unix()
-    };
-    const refreshToken = await services.token.sign(refreshTokenPayload);
+    const {
+      accessToken,
+      accessTokenPayload
+    } = await services.token.createAccessToken(user.id);
+    const {
+      refreshToken,
+      refreshTokenPayload
+    } = await services.token.createRefreshToken(user.id);
 
     response.body = {
       accessToken: {
@@ -130,26 +118,14 @@ export const authController = {
     if (!user) {
       throw errors.USER_NOT_EXISTS_ERROR();
     }
-    const accessTokenPayload = {
-      jti: services.random.id(),
-      aud: constants.ACCESS_TOKEN,
-      sub: user.id,
-      iat: moment().unix(),
-      exp: moment()
-        .add(constants.ACCESS_TOKEN_LIFETIME_MIN, "minutes")
-        .unix()
-    };
-    const accessToken = await services.token.sign(accessTokenPayload);
-    const refreshTokenPayload = {
-      jti: services.random.id(),
-      aud: constants.REFRESH_TOKEN,
-      sub: user.id,
-      iat: moment().unix(),
-      exp: moment()
-        .add(constants.REFRESH_TOKEN_LIFETIME_MIN, "minutes")
-        .unix()
-    };
-    const refreshToken = await services.token.sign(refreshTokenPayload);
+    const {
+      accessToken,
+      accessTokenPayload
+    } = await services.token.createAccessToken(user.id);
+    const {
+      refreshToken,
+      refreshTokenPayload
+    } = await services.token.createRefreshToken(user.id);
     response.body = {
       accessToken: {
         data: accessToken,

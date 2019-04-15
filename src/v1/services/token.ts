@@ -7,6 +7,8 @@ import base64url from "base64url";
 import * as moment from "moment";
 import * as jose from "node-jose";
 import { config } from "../../config";
+import * as constants from "../constants";
+import { randomService } from "./random";
 
 /**
  * Buffer of JWK secret
@@ -103,6 +105,34 @@ const token = {
       return false;
     }
     return true;
+  },
+
+  async createAccessToken(sub: string) {
+    const accessTokenPayload = {
+      jti: randomService.id(),
+      aud: constants.ACCESS_TOKEN,
+      sub,
+      iat: moment().unix(),
+      exp: moment()
+        .add(constants.ACCESS_TOKEN_LIFETIME_MIN, "minutes")
+        .unix()
+    };
+    const accessToken = await this.sign(accessTokenPayload);
+    return { accessToken, accessTokenPayload };
+  },
+
+  async createRefreshToken(sub: string) {
+    const refreshTokenPayload = {
+      jti: randomService.id(),
+      aud: constants.REFRESH_TOKEN,
+      sub,
+      iat: moment().unix(),
+      exp: moment()
+        .add(constants.REFRESH_TOKEN_LIFETIME_MIN, "minutes")
+        .unix()
+    };
+    const refreshToken = await this.sign(refreshTokenPayload);
+    return { refreshToken, refreshTokenPayload };
   }
 };
 

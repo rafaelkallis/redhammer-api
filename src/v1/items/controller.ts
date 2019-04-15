@@ -13,14 +13,17 @@ export const itemController = {
    */
   async getItems({ request, response, state }: Context) {
     const items = await Item.findAll();
+    response.status = 200;
     response.body = items.map(item => item.toJSON());
   },
 
   /**
    */
   async addItem({ request, response, state }: Context) {
-    const item = await Item.create(request.body);
+    const id = services.random.id();
+    const item = await Item.create({ id, ...request.body });
     await item.setOwner(state.user);
+    response.status = 200;
     response.body = item.toJSON();
   },
 
@@ -28,15 +31,17 @@ export const itemController = {
    */
   async patchItem({ request, response, params, state }: Context) {
     const item = await Item.findOne({
-      where: {
-        id: params.id
-      }
+      where: { id: params.id }
     });
-    if (!item.hasOwner(state.user)) {
+    if (!item) {
+      throw errors.ITEM_NOT_FOUND_ERROR();
+    }
+    if (!(await state.user.hasItem(item))) {
       throw errors.USER_NOT_ITEM_OWNER_ERROR();
     }
     Object.assign(item, request.body);
     await item.save();
+    response.status = 200;
     response.body = item.toJSON();
   },
 
@@ -48,9 +53,13 @@ export const itemController = {
         id: params.id
       }
     });
-    if (!item.hasOwner(state.user)) {
+    if (!item) {
+      throw errors.ITEM_NOT_FOUND_ERROR();
+    }
+    if (!(await state.user.hasItem(item))) {
       throw errors.USER_NOT_ITEM_OWNER_ERROR();
     }
     await item.destroy();
+    response.status = 200;
   }
 };

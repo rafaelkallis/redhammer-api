@@ -47,7 +47,7 @@ export function authenticate() {
     if (accessToken.aud !== constants.ACCESS_TOKEN) {
       throw errors.UNAUTHORIZED_USER_ERROR();
     }
-    const user = User.findOne({ where: { id: accessToken.sub } });
+    const user = await User.findOne({ where: { id: accessToken.sub } });
     if (!user) {
       throw errors.UNAUTHORIZED_USER_ERROR();
     }
