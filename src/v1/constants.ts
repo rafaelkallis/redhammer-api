@@ -1,7 +1,9 @@
 /**
- * @file auth constants
+ * @file constants
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
+
+export const ACCESS_TOKEN_HEADER = "x-access-token";
 
 export const SIGNUP_TOKEN = "signup_token";
 export const ACCESS_TOKEN = "access_token";

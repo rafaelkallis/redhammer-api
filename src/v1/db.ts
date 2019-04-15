@@ -17,6 +17,7 @@ export const sequelize = new Sequelize(config.DATABASE_URL, {
 
 (async () => {
   try {
+    // await sequelize.sync()
     await sequelize.authenticate();
     log.info("DB connection has been established successfully.");
   } catch (e) {

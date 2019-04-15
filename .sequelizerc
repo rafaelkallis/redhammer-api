@@ -1,0 +1,7 @@
+const envalid = require('envalid');
+
+const { DATABASE_URL } = envalid.cleanEnv(process.env, {
+  DATABASE_URL: envalid.url(),
+});
+
+module.exports = { url: DATABASE_URL };

@@ -1,5 +1,5 @@
 /**
- * @file erember model
+ * @file user model
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
@@ -19,10 +19,6 @@ export class User extends Model {
 
 User.init(
   {
-    id: {
-      type: new DataTypes.STRING(),
-      primaryKey: true
-    },
     email: { type: new DataTypes.STRING(), allowNull: false },
     name: { type: new DataTypes.STRING(), allowNull: false },
     address: { type: new DataTypes.STRING(), allowNull: false },
@@ -32,7 +28,6 @@ User.init(
   {
     sequelize,
     tableName: "users",
-    createdAt: "created_at",
-    updatedAt: "updated_at"
+    underscored: true
   }
 );

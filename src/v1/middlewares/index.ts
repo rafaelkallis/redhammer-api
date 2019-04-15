@@ -5,3 +5,4 @@
 
 export * from "./validate";
 export * from "./handleError";
+export * from "./authenticate";

@@ -5,9 +5,9 @@
 
 import { Context } from "koa";
 import * as moment from "moment";
+import * as constants from "../constants";
 import { User } from "../models";
 import * as services from "../services";
-import * as constants from "./constants";
 import * as errors from "./errors";
 
 export const authController = {

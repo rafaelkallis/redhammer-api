@@ -15,4 +15,4 @@ app.use(bodyParser());
 
 app.use(router.routes()).use(router.allowedMethods());
 
-app.listen(config.PORT);
+export const server = app.listen(config.PORT);

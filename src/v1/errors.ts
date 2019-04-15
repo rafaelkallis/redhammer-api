@@ -41,3 +41,13 @@ export const INTERNAL_DATABASE_ERROR = ServerErrorFactory(
   "internal_database_error",
   "Request cannot be processed due to an internal database error"
 );
+
+export const USER_NOT_EXISTS_ERROR = ClientErrorFactory(
+  "user_not_exists_error",
+  "User with the given id does not exist"
+);
+
+export const UNAUTHORIZED_USER_ERROR = ClientErrorFactory(
+  "unauthorized_user_error",
+  "User is not authorized to access the resource"
+);

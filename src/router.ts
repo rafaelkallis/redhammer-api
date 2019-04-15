@@ -4,7 +4,7 @@
  */
 
 import * as Router from "koa-router";
-import { v1Router } from "./v1/router";
+import { v1Router } from "./v1";
 
 export const router = new Router();
 

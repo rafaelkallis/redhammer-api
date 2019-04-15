@@ -4,8 +4,9 @@
  */
 
 import * as Router from "koa-router";
-import { authRouter } from "./auth/router";
-import { handleError } from "./middlewares";
+import { authRouter } from "./auth";
+import { itemRouter } from "./items";
+import { authenticate, handleError } from "./middlewares";
 
 export const v1Router = new Router();
 
@@ -16,3 +17,5 @@ v1Router.get("/status", ctx => {
 });
 
 v1Router.use("/auth", authRouter.routes(), authRouter.allowedMethods());
+v1Router.use(authenticate());
+v1Router.use("/items", itemRouter.routes(), itemRouter.allowedMethods());
