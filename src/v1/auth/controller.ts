@@ -63,6 +63,8 @@ export const authController = {
     user.salt = services.password.genSalt();
     user.hash = await services.password.hash(password, user.salt);
     await user.save();
+    response.status = 200;
+    response.body = user.toJSON();
   },
 
   /**
@@ -85,6 +87,7 @@ export const authController = {
       refreshTokenPayload
     } = await services.token.createRefreshToken(user.id);
 
+    response.status = 200;
     response.body = {
       accessToken: {
         data: accessToken,
@@ -127,6 +130,7 @@ export const authController = {
       refreshToken,
       refreshTokenPayload
     } = await services.token.createRefreshToken(user.id);
+    response.status = 200;
     response.body = {
       accessToken: {
         data: accessToken,

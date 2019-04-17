@@ -19,7 +19,6 @@ export const validate = {
     ) {
       try {
         ctx.request.body = await Joi.validate(ctx.request.body, schema);
-        await next();
       } catch (error) {
         const clientError: IClientError = {
           isClientError: true,
@@ -28,6 +27,7 @@ export const validate = {
         };
         throw clientError;
       }
+      await next();
     };
   },
 
@@ -42,7 +42,6 @@ export const validate = {
     ) {
       try {
         ctx.query = await Joi.validate(ctx.query, schema);
-        await next();
       } catch (error) {
         const clientError: IClientError = {
           isClientError: true,
@@ -51,6 +50,7 @@ export const validate = {
         };
         throw clientError;
       }
+      await next();
     };
   },
 
@@ -65,7 +65,6 @@ export const validate = {
     ) {
       try {
         ctx.params = await Joi.validate(ctx.params, schema);
-        await next();
       } catch (error) {
         const clientError: IClientError = {
           isClientError: true,
@@ -74,6 +73,7 @@ export const validate = {
         };
         throw clientError;
       }
+      await next();
     };
   }
 };
