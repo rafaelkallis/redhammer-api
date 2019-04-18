@@ -74,10 +74,14 @@ describe("items", () => {
 
   describe("add item", () => {
     it("happy path", async () => {
+      const uploadSpy = jest
+        .spyOn(services.file, "upload")
+        .mockReturnValue(Promise.resolve("http://example.com"));
       const itemToAdd = {
         title: "Item4",
         tags: [],
-        image: "http://example.com"
+        image:
+          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
       };
       const response = await request(app.callback())
         .post("/v1/items")
@@ -89,8 +93,9 @@ describe("items", () => {
       const item = await Item.findOne({ where: { id: response.body.id } });
       expect(item).not.toBeNull();
       const { id, ownerId, createdAt, updatedAt, ...addedItem } = item.toJSON();
-      expect(addedItem).toEqual(itemToAdd);
+      expect(addedItem).toEqual({ ...itemToAdd, image: "http://example.com" });
       expect(ownerId).toBe(user.id);
+      uploadSpy.mockRestore();
     });
   });
 

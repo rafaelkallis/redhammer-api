@@ -15,6 +15,9 @@ interface IConfig {
   PBKDF2_N_ITERATIONS: number;
   PBKDF2_N_KEY_BYTES: number;
   PBKDF2_DIGEST: string;
+  S3_ACCESS_KEY_ID: string;
+  S3_SECRET_ACCESS_KEY: string;
+  S3_BUCKET: string;
 }
 
 const strHex64 = envalid.makeValidator<string>(x => {
@@ -34,6 +37,9 @@ export const config: Readonly<IConfig> = envalid.cleanEnv<IConfig>(
     PBKDF2_N_SALT_BYTES: envalid.num(),
     PBKDF2_N_ITERATIONS: envalid.num(),
     PBKDF2_N_KEY_BYTES: envalid.num(),
-    PBKDF2_DIGEST: envalid.str({ choices: getHashes() })
+    PBKDF2_DIGEST: envalid.str({ choices: getHashes() }),
+    S3_ACCESS_KEY_ID: envalid.str(),
+    S3_SECRET_ACCESS_KEY: envalid.str(),
+    S3_BUCKET: envalid.str()
   }
 );

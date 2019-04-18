@@ -20,8 +20,16 @@ export const itemController = {
   /**
    */
   async addItem({ request, response, state }: Context) {
-    const id = services.random.id();
-    const item = await Item.create({ id, ...request.body });
+    const item = Item.build(request.body);
+    item.id = services.random.id();
+    const decodedImageURI = services.dataURI.decode(request.body.image);
+    if (!decodedImageURI) {
+      throw errors.INVALID_IMAGE_ERROR();
+    }
+    const { mediaType, encoding, payload } = decodedImageURI;
+    const key = services.random.id();
+    item.image = await services.file.upload(key, payload, mediaType);
+    await item.save();
     await item.setOwner(state.user);
     response.status = 200;
     response.body = item.toJSON();

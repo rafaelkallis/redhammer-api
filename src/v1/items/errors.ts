@@ -15,3 +15,8 @@ export const ITEM_NOT_FOUND_ERROR = ClientErrorFactory(
   "item_not_found_error",
   "Item with given id does not exist"
 );
+
+export const INVALID_IMAGE_ERROR = ClientErrorFactory(
+  "invalid_image_error",
+  "Provided image is not valid"
+);

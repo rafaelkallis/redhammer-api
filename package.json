@@ -19,6 +19,7 @@
     "heroku-postbuild": "npm run build"
   },
   "dependencies": {
+    "aws-sdk": "2.439.0",
     "base64url": "3.0.1",
     "envalid": "5.0.0",
     "joi": "14.3.1",

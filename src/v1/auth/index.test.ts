@@ -15,34 +15,6 @@ describe("auth", () => {
     await User.destroy({ where: {} });
   });
 
-  describe("signup", () => {
-    it("happy path", async () => {
-      const encryptSpy = jest
-        .spyOn(services.token, "encrypt")
-        .mockReturnValue(Promise.resolve("encrypted-token"));
-      const sendVerifySignupSpy = jest
-        .spyOn(services.email, "sendVerifySignup")
-        .mockReturnValue(Promise.resolve());
-      const email = `${services.random.id()}@example.com`;
-      const newUser = {
-        email,
-        password: "pass",
-        name: "name",
-        address: "address"
-      };
-      const response = await request(app.callback())
-        .post("/v1/auth/signup")
-        .send(newUser);
-      expect(response.status).toBe(200);
-      expect(sendVerifySignupSpy).toHaveBeenCalledWith({
-        to: email,
-        token: "encrypted-token"
-      });
-      encryptSpy.mockRestore();
-      sendVerifySignupSpy.mockRestore();
-    });
-  });
-
   describe("verify", () => {
     it("happy path", async () => {
       const genSaltSpy = jest

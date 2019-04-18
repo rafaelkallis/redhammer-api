@@ -8,3 +8,5 @@ export * from "./password";
 export * from "./random";
 export * from "./log";
 export * from "./email";
+export * from "./data-uri";
+export * from "./file";

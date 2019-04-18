@@ -19,9 +19,7 @@ itemRouter.post(
     tags: Joi.array()
       .items(Joi.string())
       .required(),
-    image: Joi.string()
-      .uri()
-      .required()
+    image: Joi.string().required()
   }),
   itemController.addItem
 );
@@ -32,7 +30,7 @@ itemRouter.patch(
   validate.body({
     title: Joi.string(),
     tags: Joi.array().items(Joi.string()),
-    image: Joi.string().uri()
+    image: Joi.string()
   }),
   itemController.patchItem
 );
