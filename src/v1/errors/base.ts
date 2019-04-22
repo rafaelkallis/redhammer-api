@@ -1,5 +1,5 @@
 /**
- * @file errors
+ * @file base errors
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
@@ -15,13 +15,19 @@ export interface IServerError {
   message: string;
 }
 
-export const ClientErrorFactory = (code, message) => (): IClientError => ({
+export const ClientErrorFactory = (
+  code: string,
+  message: string
+) => (): IClientError => ({
   isClientError: true,
   code,
   message
 });
 
-export const ServerErrorFactory = (code, message) => (): IServerError => ({
+export const ServerErrorFactory = (
+  code: string,
+  message: string
+) => (): IServerError => ({
   isServerError: true,
   code,
   message
@@ -40,11 +46,6 @@ export const UNIMPLEMENTED_ERROR = ServerErrorFactory(
 export const INTERNAL_DATABASE_ERROR = ServerErrorFactory(
   "internal_database_error",
   "Request cannot be processed due to an internal database error"
-);
-
-export const USER_NOT_EXISTS_ERROR = ClientErrorFactory(
-  "user_not_exists_error",
-  "User with the given id does not exist"
 );
 
 export const UNAUTHORIZED_USER_ERROR = ClientErrorFactory(

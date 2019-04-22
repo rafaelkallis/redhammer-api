@@ -4,7 +4,6 @@
  */
 
 import { createLogger, format, transports } from "winston";
-import { config } from "../../config";
 
 const logger = createLogger({
   level: "info",
@@ -15,7 +14,7 @@ const logger = createLogger({
   ]
 });
 
-const log = {
+export const log = {
   debug(arg: string, ...rest: string[]) {
     logger.debug(arg, ...rest);
   },
@@ -33,6 +32,4 @@ const log = {
   }
 };
 
-const logService = log;
-
-export { log, logService };
+export const logService = log;

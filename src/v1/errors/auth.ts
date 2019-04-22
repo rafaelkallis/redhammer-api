@@ -3,8 +3,7 @@
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
-import { ClientErrorFactory } from "../errors";
-export * from "../errors";
+import { ClientErrorFactory } from "./base";
 
 export const EMAIL_ALREADY_USED_ERROR = ClientErrorFactory(
   "email_already_used_error",

@@ -3,10 +3,9 @@
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
+import { INTERNAL_ERROR } from "@v1/errors";
+import { logService } from "@v1/services";
 import { Context } from "koa";
-import { config } from "../../config";
-import { IClientError, INTERNAL_ERROR, IServerError } from "../errors";
-import { log } from "../services";
 
 /**
  * Error middleware.
@@ -29,7 +28,7 @@ export function handleError() {
         ctx.status = 500;
         ctx.body = { error: { code, message } };
       } else {
-        log.error(String(err));
+        logService.error(String(err));
         const { code, message } = INTERNAL_ERROR();
         ctx.status = 500;
         ctx.body = { error: { code, message } };

@@ -6,7 +6,19 @@
     "sourceMap": true,
     "target": "es6",
     "outDir": "./build",
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "paths": {
+      "@app": ["./app"],
+      "@v1/errors": ["./v1/errors"],
+      "@v1/constants": ["./v1/constants"],
+      "@v1/services": ["./v1/services"],
+      "@v1/types": ["./v1/types"],
+      "@v1/middlewares": ["./v1/middlewares"],
+      "@v1/models": ["./v1/models"]
+    }
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]

@@ -3,12 +3,11 @@
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
+import * as constants from "@v1/constants";
+import * as errors from "@v1/errors";
+import { User } from "@v1/models";
+import * as services from "@v1/services";
 import { Context } from "koa";
-import * as constants from "../constants";
-import { ClientErrorFactory } from "../errors";
-import * as errors from "../errors";
-import { User } from "../models";
-import * as services from "../services";
 
 /**
  * Authorize the request.
@@ -35,19 +34,19 @@ export function authenticate() {
     if (!authorizationHeader) {
       throw errors.UNAUTHORIZED_USER_ERROR();
     }
-    let accessToken;
+    let payload;
     try {
-      accessToken = await services.token.verifySignature(authorizationHeader);
+      payload = await services.token.verifySignature(authorizationHeader);
     } catch (e) {
       throw errors.UNAUTHORIZED_USER_ERROR();
     }
-    if (!services.token.hasValidTimestamps(accessToken)) {
+    if (!services.token.hasValidTimestamps(payload)) {
       throw errors.UNAUTHORIZED_USER_ERROR();
     }
-    if (accessToken.aud !== constants.ACCESS_TOKEN) {
+    if (!services.token.isAccessToken(payload)) {
       throw errors.UNAUTHORIZED_USER_ERROR();
     }
-    const user = await User.findOne({ where: { id: accessToken.sub } });
+    const user = await User.findOne({ where: { id: payload.sub } });
     if (!user) {
       throw errors.UNAUTHORIZED_USER_ERROR();
     }

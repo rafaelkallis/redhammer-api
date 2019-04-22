@@ -5,13 +5,10 @@
 
 import * as Koa from "koa";
 import * as bodyParser from "koa-bodyparser";
-import * as Router from "koa-router";
-import { config } from "./config";
-import { v1Router } from "./v1";
-
-const router = new Router();
-router.use("/v1", v1Router.routes(), v1Router.allowedMethods());
+import * as mount from "koa-mount";
+import { v1 } from "./v1";
 
 export const app = new Koa();
+
 app.use(bodyParser());
-app.use(router.routes()).use(router.allowedMethods());
+app.use(mount("/v1", v1()));

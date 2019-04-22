@@ -3,19 +3,16 @@
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
-import * as Router from "koa-router";
-import { authRouter } from "./auth";
-import { itemRouter } from "./items";
-import { authenticate, handleError } from "./middlewares";
+import { authenticate, handleError } from "@v1/middlewares";
+import * as compose from "koa-compose";
+import * as mount from "koa-mount";
+import { auth, items } from "./routes";
 
-export const v1Router = new Router();
-
-v1Router.use(handleError());
-
-v1Router.get("/status", ctx => {
-  ctx.body = { message: "I'm alive!" };
-});
-
-v1Router.use("/auth", authRouter.routes(), authRouter.allowedMethods());
-v1Router.use(authenticate());
-v1Router.use("/items", itemRouter.routes(), itemRouter.allowedMethods());
+export function v1() {
+  return compose([
+    handleError(),
+    mount("/auth", auth()),
+    authenticate(),
+    mount("/items", items())
+  ]);
+}

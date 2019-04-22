@@ -3,14 +3,7 @@
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
-import {
-  BuildOptions,
-  DataTypes,
-  HasMany,
-  HasManyHasAssociationMixin,
-  Model,
-  Sequelize
-} from "sequelize";
+import { DataTypes, HasManyHasAssociationMixin, Model } from "sequelize";
 import { sequelize } from "../db";
 import { Item } from "./item";
 
@@ -24,7 +17,7 @@ export class User extends Model {
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-  public hasItem: HasManyHasAssociationMixin<Item, string>;
+  public hasItem!: HasManyHasAssociationMixin<Item, string>;
 }
 
 User.init(

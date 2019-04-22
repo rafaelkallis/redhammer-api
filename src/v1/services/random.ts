@@ -7,15 +7,16 @@ import base64url from "base64url";
 import * as crypto from "crypto";
 import * as moment from "moment";
 
-const random = {
-  id(): string {
+export const random = {
+  ordered(): string {
     return base64url.encode(ordered176());
+  },
+  unordered(): string {
+    return base64url.encode(unordered128());
   }
 };
 
-const randomService = random;
-
-export { random, randomService };
+export const randomService = random;
 
 /**
  * Generates a url-safe, ordered, random string.

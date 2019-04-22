@@ -14,7 +14,7 @@ const s3 = new aws.S3({
 const isS3UrlRegex = /^https:\/\/([A-Za-z0-9-]+)\.s3(\.)?([a-z0-9-]+)?\.amazonaws.com\/([A-Za-z0-9-_]+)$/;
 const isBase64UrlRegex = /^([A-Za-z0-9-_]+)$/;
 
-const file = {
+export const file = {
   /**
    * Uploads the given payload and return a url.
    */
@@ -49,6 +49,7 @@ const file = {
 
     const s3UrlRegexMatcher = isS3UrlRegex.exec(keyOrUrl);
     if (s3UrlRegexMatcher) {
+      // @ts-ignore
       const [, urlS3Bucket, , urlS3Region, urlKey] = s3UrlRegexMatcher;
       if (urlS3Bucket !== config.S3_BUCKET) {
         // TODO: throw error instead?
@@ -75,6 +76,4 @@ const file = {
   }
 };
 
-const fileService = file;
-
-export { file, fileService };
+export const fileService = file;

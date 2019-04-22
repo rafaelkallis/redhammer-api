@@ -3,14 +3,15 @@
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
-const email = {
+export const email = {
   /**
    */
   async sendVerifySignup(params: { to: string; token: string }): Promise<void> {
+    // TODO:
+    // @ts-ignore
     const { to, token } = params;
+    throw new Error("unimplemented");
   }
 };
 
-const emailService = email;
-
-export { email, emailService };
+export const emailService = email;

@@ -77,26 +77,3 @@ export const validate = {
     };
   }
 };
-
-function validateRequestProp(reqProp: "body" | "query" | "params") {
-  return (schema: Joi.SchemaLike) => {
-    schema = Joi.compile(schema);
-    return async function validateCtxPropInner(
-      ctx: Context,
-      next: () => Promise<void>
-    ) {
-      try {
-        // assign to context because Joi.validate might transform values
-        ctx.request[reqProp] = await Joi.validate(ctx.request[reqProp], schema);
-        await next();
-      } catch (error) {
-        const clientError: IClientError = {
-          isClientError: true,
-          code: `${reqProp}_err`,
-          message: error.details[0].message
-        };
-        throw clientError;
-      }
-    };
-  };
-}

@@ -3,11 +3,17 @@
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
+import * as constants from "@v1/constants";
+import {
+  IAccessToken,
+  IRefreshToken,
+  ISignupToken,
+  ITokenBase
+} from "@v1/types";
 import base64url from "base64url";
 import * as moment from "moment";
 import * as jose from "node-jose";
 import { config } from "../../config";
-import * as constants from "../constants";
 import { randomService } from "./random";
 
 /**
@@ -36,7 +42,7 @@ const token = {
    * @param {Object} payload - The payload to sign.
    * @return {Promise<string>} - A signed json web token.
    */
-  async sign(payload: object): Promise<string> {
+  async sign(payload: ITokenBase): Promise<string> {
     return jose.JWS.createSign({ format: "compact" }, await jwk)
       .update(Buffer.from(JSON.stringify(payload), "utf8"))
       .final();
@@ -47,7 +53,7 @@ const token = {
    * @param {string} token - The json web token.
    * @return {Promise<T>} - The decoded payload.
    */
-  async verifySignature<T>(jwt: string): Promise<T> {
+  async verifySignature(jwt: string): Promise<ITokenBase> {
     const { payload } = await jose.JWS.createVerify(await jwk).verify(jwt);
     return JSON.parse(payload.toString("utf8"));
   },
@@ -57,7 +63,7 @@ const token = {
    * @param {Object} payload - The payload to encrypt.
    * @return {Promise<string>} - An encrypted json web token.
    */
-  async encrypt(payload: object): Promise<string> {
+  async encrypt(payload: ITokenBase): Promise<string> {
     return jose.JWE.createEncrypt({ format: "compact" }, await jwk)
       .update(Buffer.from(JSON.stringify(payload)))
       .final();
@@ -69,7 +75,7 @@ const token = {
    * @param {string} token - The encrypted json web token.
    * @return {Promise<Object>} - The decrypted payload.
    */
-  async decrypt<T>(jwe: string): Promise<T> {
+  async decrypt(jwe: string): Promise<ITokenBase> {
     const { payload } = await jose.JWE.createDecrypt(await jwk).decrypt(jwe);
     return JSON.parse(payload.toString("utf8"));
   },
@@ -86,7 +92,7 @@ const token = {
    * @param {Object} payload - The token's payload.
    * @return {boolean} - True if the token is not expired.
    */
-  hasValidTimestamps(payload) {
+  hasValidTimestamps(payload: Partial<ITokenBase>) {
     const { iat, exp } = payload;
     if (!iat) {
       /* a claim is missing */
@@ -107,9 +113,36 @@ const token = {
     return true;
   },
 
-  async createAccessToken(sub: string) {
-    const accessTokenPayload = {
-      jti: randomService.id(),
+  newSignupToken(params: {
+    sub: string;
+    email: string;
+    password: string;
+    name: string;
+    address: string;
+  }): ISignupToken {
+    const { sub, email, password, name, address } = params;
+    return {
+      jti: randomService.unordered(),
+      sub,
+      aud: constants.SIGNUP_TOKEN,
+      iat: moment().unix(),
+      exp: moment()
+        .add(constants.SIGNUP_TOKEN_LIFETIME_MIN, "minutes")
+        .unix(),
+      email,
+      password,
+      name,
+      address
+    };
+  },
+
+  isSignupToken(payload: any): payload is ISignupToken {
+    return payload.aud === constants.SIGNUP_TOKEN;
+  },
+
+  newAccessToken(sub: string): IAccessToken {
+    return {
+      jti: randomService.unordered(),
       aud: constants.ACCESS_TOKEN,
       sub,
       iat: moment().unix(),
@@ -117,13 +150,15 @@ const token = {
         .add(constants.ACCESS_TOKEN_LIFETIME_MIN, "minutes")
         .unix()
     };
-    const accessToken = await this.sign(accessTokenPayload);
-    return { accessToken, accessTokenPayload };
   },
 
-  async createRefreshToken(sub: string) {
-    const refreshTokenPayload = {
-      jti: randomService.id(),
+  isAccessToken(payload: any): payload is ISignupToken {
+    return payload.aud === constants.ACCESS_TOKEN;
+  },
+
+  newRefreshToken(sub: string): IRefreshToken {
+    return {
+      jti: randomService.unordered(),
       aud: constants.REFRESH_TOKEN,
       sub,
       iat: moment().unix(),
@@ -131,8 +166,10 @@ const token = {
         .add(constants.REFRESH_TOKEN_LIFETIME_MIN, "minutes")
         .unix()
     };
-    const refreshToken = await this.sign(refreshTokenPayload);
-    return { refreshToken, refreshTokenPayload };
+  },
+
+  isRefreshToken(payload: any): payload is ISignupToken {
+    return payload.aud === constants.REFRESH_TOKEN;
   }
 };
 

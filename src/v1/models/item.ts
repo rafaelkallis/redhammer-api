@@ -3,14 +3,7 @@
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
-import {
-  BelongsToSetAssociationMixin,
-  BuildOptions,
-  DataTypes,
-  HasMany,
-  Model,
-  Sequelize
-} from "sequelize";
+import { BelongsToSetAssociationMixin, DataTypes, Model } from "sequelize";
 import { sequelize } from "../db";
 import { User } from "./user";
 
@@ -19,11 +12,12 @@ export class Item extends Model {
   public title!: string;
   public tags!: string[];
   public image!: string;
+  public ownerId!: User["id"];
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-  public setOwner: BelongsToSetAssociationMixin<User, string>;
+  public setOwner!: BelongsToSetAssociationMixin<User, string>;
 }
 
 Item.init(
