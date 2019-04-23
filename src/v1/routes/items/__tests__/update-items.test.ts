@@ -3,7 +3,7 @@
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
-import { app } from "@app";
+import { server } from "@app";
 import { ACCESS_TOKEN_HEADER } from "@v1/constants";
 import { Item, User } from "@v1/models";
 import * as services from "@v1/services";
@@ -40,8 +40,12 @@ describe("update item", () => {
     await User.destroy({ where: {} });
   });
 
+  afterAll(done => {
+    server.close(done);
+  });
+
   test("happy path", async () => {
-    const response = await request(app.callback())
+    const response = await request(server)
       .patch(`/v1/items/${existingItem.id}`)
       .set(ACCESS_TOKEN_HEADER, accessToken)
       .send({ title: "new title" });

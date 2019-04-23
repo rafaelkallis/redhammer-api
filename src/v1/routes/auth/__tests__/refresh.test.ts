@@ -3,7 +3,7 @@
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
-import { app } from "@app";
+import { server } from "@app";
 import { User } from "@v1/models";
 import * as services from "@v1/services";
 import * as request from "supertest";
@@ -38,12 +38,16 @@ describe("refresh", () => {
     await User.destroy({ where: {} });
   });
 
+  afterAll(done => {
+    server.close(done);
+  });
+
   test("happy path", async () => {
     verifySignatureSpy.mockReturnValue(
       Promise.resolve(services.token.newRefreshToken(user.id))
     );
     hasValidTimestampsSpy.mockReturnValue(true);
-    const response = await request(app.callback())
+    const response = await request(server)
       .post("/v1/auth/refresh")
       .send({ token: "refresh token" });
     expect(response.status).toBe(200);

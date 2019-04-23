@@ -3,7 +3,7 @@
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
-import { app } from "@app";
+import { server } from "@app";
 import { User } from "@v1/models";
 import * as services from "@v1/services";
 import * as request from "supertest";
@@ -23,6 +23,10 @@ describe("verify", () => {
     await User.destroy({ where: {} });
   });
 
+  afterAll(done => {
+    server.close(done);
+  });
+
   test("happy path", async () => {
     genSaltSpy.mockReturnValue("password-salt");
     hashSpy.mockReturnValue(Promise.resolve("password-hash"));
@@ -35,7 +39,7 @@ describe("verify", () => {
       address: "Bahnhofstrasse 3, Zurich"
     });
     const token = await services.token.encrypt(payload);
-    const response = await request(app.callback())
+    const response = await request(server)
       .post("/v1/auth/verify")
       .query({ token });
     expect(response.status).toBe(200);

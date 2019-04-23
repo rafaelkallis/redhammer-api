@@ -3,7 +3,7 @@
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
-import { app } from "@app";
+import { server } from "@app";
 import { ACCESS_TOKEN_HEADER } from "@v1/constants";
 import { Item, User } from "@v1/models";
 import * as services from "@v1/services";
@@ -55,8 +55,12 @@ describe("get items", () => {
     await User.destroy({ where: {} });
   });
 
+  afterAll(done => {
+    server.close(done);
+  });
+
   test("happy path", async () => {
-    const response = await request(app.callback())
+    const response = await request(server)
       .get("/v1/items")
       .set(ACCESS_TOKEN_HEADER, accessToken);
     expect(response.status).toBe(200);

@@ -3,7 +3,7 @@
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
-import { app } from "@app";
+import { server } from "@app";
 import { ACCESS_TOKEN_HEADER } from "@v1/constants";
 import { Item, User } from "@v1/models";
 import * as services from "@v1/services";
@@ -35,6 +35,10 @@ describe("add item", () => {
     uploadSpy.mockRestore();
   });
 
+  afterAll(done => {
+    server.close(done);
+  });
+
   test("happy path", async () => {
     uploadSpy.mockReturnValue(Promise.resolve("http://example.com"));
     const itemToAdd = {
@@ -43,7 +47,7 @@ describe("add item", () => {
       image:
         "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
     };
-    const response = await request(app.callback())
+    const response = await request(server)
       .post("/v1/items")
       .set(ACCESS_TOKEN_HEADER, accessToken)
       .send(itemToAdd);

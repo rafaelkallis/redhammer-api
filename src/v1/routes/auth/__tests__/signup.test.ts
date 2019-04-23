@@ -3,7 +3,7 @@
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
-import { app } from "@app";
+import { server } from "@app";
 import { User } from "@v1/models";
 import * as services from "@v1/services";
 import * as request from "supertest";
@@ -23,6 +23,10 @@ describe("signup", () => {
     sendVerifySignupSpy.mockRestore();
   });
 
+  afterAll(done => {
+    server.close(done);
+  });
+
   test("happy path", async () => {
     encryptSpy.mockReturnValue(Promise.resolve("encrypted-token"));
     sendVerifySignupSpy.mockReturnValue(Promise.resolve());
@@ -32,7 +36,7 @@ describe("signup", () => {
       name: "name",
       address: "address"
     };
-    const response = await request(app.callback())
+    const response = await request(server)
       .post("/v1/auth/signup")
       .send(newUser);
     expect(response.status).toBe(200);

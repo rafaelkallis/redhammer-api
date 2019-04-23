@@ -1,8 +1,9 @@
 {
   "name": "redhammer-api",
   "version": "1.0.0",
+  "main": "build/app.js",
   "scripts": {
-    "start": "node build/index.js",
+    "start": "node build/app.js",
     "dev": "ts-node-dev --respawn --transpileOnly --no-notify src/index.ts",
     "build": "tsc",
     "build:watch": "tsc --watch",
@@ -19,7 +20,7 @@
     "heroku-postbuild": "npm run build"
   },
   "dependencies": {
-    "aws-sdk": "2.439.0",
+    "aws-sdk": "^2.441.0",
     "base64url": "3.0.1",
     "envalid": "5.0.0",
     "joi": "14.3.1",
@@ -31,8 +32,8 @@
     "lodash.pick": "4.4.0",
     "moment": "2.24.0",
     "node-jose": "1.1.3",
-    "pg": "7.9.0",
-    "sequelize": "5.3.5",
+    "pg": "^7.10.0",
+    "sequelize": "^5.7.4",
     "sequelize-cli": "5.4.0",
     "winston": "3.2.1"
   },
@@ -40,24 +41,24 @@
     "@types/bluebird": "3.5.26",
     "@types/dotenv-safe": "5.0.3",
     "@types/jest": "24.0.11",
-    "@types/joi": "14.3.2",
+    "@types/joi": "^14.3.3",
     "@types/koa": "2.0.48",
     "@types/koa-bodyparser": "4.2.2",
     "@types/koa-router": "7.0.40",
     "@types/lodash.pick": "4.4.6",
-    "@types/node": "11.13.4",
+    "@types/node": "^11.13.7",
     "@types/supertest": "2.0.7",
     "@types/validator": "10.11.0",
     "@types/winston": "2.4.4",
     "husky": "1.3.1",
     "jest": "24.7.1",
     "lint-staged": "8.1.5",
-    "prettier": "1.16.4",
+    "prettier": "^1.17.0",
     "supertest": "4.0.2",
     "ts-jest": "24.0.2",
     "ts-node-dev": "1.0.0-pre.32",
-    "tslint": "5.15.0",
+    "tslint": "^5.16.0",
     "tslint-config-prettier": "1.18.0",
-    "typescript": "3.4.3"
+    "typescript": "^3.4.4"
   }
 }
