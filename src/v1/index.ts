@@ -4,8 +4,8 @@
  */
 
 import { authenticate, handleError } from "@v1/middlewares";
-import * as compose from "koa-compose";
-import * as mount from "koa-mount";
+import compose from "koa-compose";
+import mount from "koa-mount";
 import { auth, items } from "./routes";
 
 export function v1() {

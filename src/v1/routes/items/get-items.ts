@@ -5,7 +5,7 @@
 
 import { validate } from "@v1/middlewares";
 import { Item } from "@v1/models";
-import * as compose from "koa-compose";
+import compose from "koa-compose";
 import { RouterContext } from "koa-router";
 
 export const getItems = () =>

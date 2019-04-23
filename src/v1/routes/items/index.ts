@@ -3,8 +3,8 @@
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
-import * as compose from "koa-compose";
-import * as Router from "koa-router";
+import compose from "koa-compose";
+import Router from "koa-router";
 import { addItem } from "./add-item";
 import { deleteItem } from "./delete-item";
 import { getItems } from "./get-items";

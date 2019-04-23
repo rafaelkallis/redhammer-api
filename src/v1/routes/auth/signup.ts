@@ -7,8 +7,8 @@ import * as errors from "@v1/errors";
 import { validate } from "@v1/middlewares";
 import { User } from "@v1/models";
 import * as services from "@v1/services";
-import * as Joi from "joi";
-import * as compose from "koa-compose";
+import Joi from "joi";
+import compose from "koa-compose";
 import { RouterContext } from "koa-router";
 
 export const signup = () =>

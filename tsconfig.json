@@ -10,6 +10,7 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "esModuleInterop": true,
     "paths": {
       "@app": ["./app"],
       "@v1/errors": ["./v1/errors"],

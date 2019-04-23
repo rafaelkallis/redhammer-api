@@ -4,7 +4,7 @@
  */
 
 import { getHashes } from "crypto";
-import * as envalid from "envalid";
+import envalid from "envalid";
 
 interface IConfig {
   NODE_ENV: string;

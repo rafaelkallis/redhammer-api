@@ -3,9 +3,9 @@
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
-import * as Joi from "joi";
+import { IClientError } from "@v1/errors";
+import Joi from "joi";
 import { Context } from "koa";
-import { IClientError } from "../errors";
 
 export const validate = {
   /**

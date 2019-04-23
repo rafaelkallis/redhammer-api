@@ -7,7 +7,7 @@ import { server } from "@app";
 import { ACCESS_TOKEN_HEADER } from "@v1/constants";
 import { Item, User } from "@v1/models";
 import * as services from "@v1/services";
-import * as request from "supertest";
+import request from "supertest";
 
 describe("get items", () => {
   let user: User;
@@ -53,10 +53,6 @@ describe("get items", () => {
   afterEach(async () => {
     await Item.destroy({ where: {} });
     await User.destroy({ where: {} });
-  });
-
-  afterAll(done => {
-    server.close(done);
   });
 
   test("happy path", async () => {

@@ -4,8 +4,8 @@
  */
 
 import base64url from "base64url";
-import * as crypto from "crypto";
-import * as moment from "moment";
+import crypto from "crypto";
+import moment from "moment";
 
 export const random = {
   ordered(): string {

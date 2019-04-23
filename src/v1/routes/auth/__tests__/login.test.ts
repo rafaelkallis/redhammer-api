@@ -6,7 +6,7 @@
 import { server } from "@app";
 import { User } from "@v1/models";
 import * as services from "@v1/services";
-import * as request from "supertest";
+import request from "supertest";
 
 describe("login", () => {
   let verifySpy: jest.SpyInstance;
@@ -33,10 +33,6 @@ describe("login", () => {
     verifySpy.mockRestore();
     newAccessTokenSpy.mockRestore();
     newRefreshTokenSpy.mockRestore();
-  });
-
-  afterAll(done => {
-    server.close(done);
   });
 
   test("happy path", async () => {

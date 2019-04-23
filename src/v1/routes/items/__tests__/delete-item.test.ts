@@ -7,8 +7,8 @@ import { server } from "@app";
 import { ACCESS_TOKEN_HEADER } from "@v1/constants";
 import { Item, User } from "@v1/models";
 import * as services from "@v1/services";
-import * as _ from "lodash";
-import * as request from "supertest";
+import _ from "lodash";
+import request from "supertest";
 
 describe("delete item", () => {
   let user: User;
@@ -38,10 +38,6 @@ describe("delete item", () => {
   afterEach(async () => {
     await Item.destroy({ where: {} });
     await User.destroy({ where: {} });
-  });
-
-  afterAll(done => {
-    server.close(done);
   });
 
   test("happy path", async () => {

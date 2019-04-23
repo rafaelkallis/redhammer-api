@@ -11,8 +11,8 @@ import {
   ITokenBase
 } from "@v1/types";
 import base64url from "base64url";
-import * as moment from "moment";
-import * as jose from "node-jose";
+import moment from "moment";
+import jose from "node-jose";
 import { config } from "../../config";
 import { randomService } from "./random";
 

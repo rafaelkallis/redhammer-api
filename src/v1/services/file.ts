@@ -3,7 +3,7 @@
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
-import * as aws from "aws-sdk";
+import aws from "aws-sdk";
 import { config } from "../../config";
 
 const s3 = new aws.S3({

@@ -6,7 +6,7 @@
 import { server } from "@app";
 import { User } from "@v1/models";
 import * as services from "@v1/services";
-import * as request from "supertest";
+import request from "supertest";
 
 describe("refresh", () => {
   let user: User;
@@ -36,10 +36,6 @@ describe("refresh", () => {
     newAccessTokenSpy.mockRestore();
     newRefreshTokenSpy.mockRestore();
     await User.destroy({ where: {} });
-  });
-
-  afterAll(done => {
-    server.close(done);
   });
 
   test("happy path", async () => {

@@ -6,7 +6,7 @@
 import { server } from "@app";
 import { User } from "@v1/models";
 import * as services from "@v1/services";
-import * as request from "supertest";
+import request from "supertest";
 
 describe("verify", () => {
   let genSaltSpy: jest.SpyInstance;
@@ -21,10 +21,6 @@ describe("verify", () => {
     genSaltSpy.mockRestore();
     hashSpy.mockRestore();
     await User.destroy({ where: {} });
-  });
-
-  afterAll(done => {
-    server.close(done);
   });
 
   test("happy path", async () => {

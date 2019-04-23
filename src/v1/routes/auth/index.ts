@@ -3,8 +3,8 @@
  * @author Rafael Kallis <rk@rafaelkallis.com>
  */
 
-import * as compose from "koa-compose";
-import * as Router from "koa-router";
+import compose from "koa-compose";
+import Router from "koa-router";
 import { login } from "./login";
 import { refresh } from "./refresh";
 import { signup } from "./signup";
