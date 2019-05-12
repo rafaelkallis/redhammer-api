@@ -6,12 +6,20 @@
 import http from "http";
 import Koa from "koa";
 import bodyParser from "koa-bodyparser";
+import compress from "koa-compress";
+import helmet from "koa-helmet";
 import mount from "koa-mount";
-import { v1 } from "./v1";
+import { handleError } from "./middlewares";
+import { auth, items } from "./routes";
 
 export const app = new Koa();
 
+app.use(compress());
 app.use(bodyParser());
-app.use(mount("/v1", v1()));
+app.use(helmet());
+
+app.use(handleError());
+app.use(mount("/auth", auth()));
+app.use(mount("/items", items()));
 
 export const server = http.createServer(app.callback());

@@ -4,12 +4,9 @@
  */
 
 declare module "koa-compose" {
-  import { IMiddleware } from "koa-router";
-  namespace compose {
-    type Middleware<T> = (context: T, next: () => Promise<void>) => void;
-  }
+  import { Context, Middleware } from "koa";
 
-  function compose<T>(middleware: Array<IMiddleware<T>>): IMiddleware<T>;
+  function compose<T>(middleware: Array<Middleware<T>>): Middleware<T>;
 
   export = compose;
 }

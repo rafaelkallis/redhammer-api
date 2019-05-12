@@ -7,11 +7,12 @@ module.exports = {
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   moduleNameMapper: {
     "^@app$": "<rootDir>/src/app",
-    "^@v1/errors$": "<rootDir>/src/v1/errors",
-    "^@v1/constants$": "<rootDir>/src/v1/constants",
-    "^@v1/services$": "<rootDir>/src/v1/services",
-    "^@v1/types$": "<rootDir>/src/v1/types",
-    "^@v1/middlewares$": "<rootDir>/src/v1/middlewares",
-    "^@v1/models$": "<rootDir>/src/v1/models"
+    "^@config$": "<rootDir>/src/config",
+    "^@errors$": "<rootDir>/src/errors",
+    "^@constants$": "<rootDir>/src/constants",
+    "^@services$": "<rootDir>/src/services",
+    "^@types$": "<rootDir>/src/types",
+    "^@middlewares$": "<rootDir>/src/middlewares",
+    "^@models$": "<rootDir>/src/models"
   }
 };

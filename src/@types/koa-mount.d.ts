@@ -4,15 +4,11 @@
  */
 
 declare module "koa-mount" {
-  import * as Koa from "koa";
-  import * as Router from "koa-router";
+  import { Middleware } from "koa";
+
+  function mount<T>(prefix: string, app: Middleware<T>): Middleware<T>;
 
   namespace mount {}
-
-  function mount<StateT = any>(
-    prefix: string,
-    app: Koa.Middleware<StateT> | Router.IMiddleware<StateT> | Koa
-  ): Koa.Middleware<StateT>;
 
   export = mount;
 }
